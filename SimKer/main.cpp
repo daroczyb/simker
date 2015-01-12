@@ -66,17 +66,20 @@ int main(int argc,char* argv[])
     
     int train_sim=1;
     int test=0;
-    
+
 #ifdef __APPLE__
-     sprintf(train_file,"/Users/balint/Desktop/SimKer/ref.txt");
-     sprintf(test_file,"/Users/balint/Desktop/SimKer/test.txt");
-     sprintf(output_file,"/Users/balint/Desktop/SimKer/test.out");
      sprintf(kernel_file,"/Users/balint/Desktop/SimKer/SimKer/SimKer/opencl_sim.cl");
-     ntr=10;
-     dim=3;
-     nte=10;
-     test=1;
-     batch=2;
+     if(argc<2)
+        {
+            sprintf(train_file,"/Users/balint/Desktop/SimKer/ref.txt");
+            sprintf(test_file,"/Users/balint/Desktop/SimKer/test.txt");
+            sprintf(output_file,"/Users/balint/Desktop/SimKer/test.out");
+            ntr=10;
+            dim=3;
+            nte=10;
+            test=1;
+            batch=2;
+        }
 #else
     if(argc<2) {usage(); return 1;}
     sprintf(kernel_file,"OpenCL/opencl_sim.cl");

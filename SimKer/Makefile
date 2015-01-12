@@ -14,14 +14,14 @@ SDKINC = /home/daroczyb/NVIDIA_GPU_Computing_SDK/C/common/inc/
 SDKLIB = /home/daroczyb/NVIDIA_GPU_Computing_SDK/C/lib/
 SSEOPT= -msse3 -mfpmath=sse -funroll-loops
 ARCH_GPU= sm_10
-CFLAGS = -g $(OPT) $(SSEOPT)
+CFLAGS = $(OPT) $(SSEOPT)
 #$(OPENCV_LINUX)
 
 main: main.cpp OpenCL_env.o
-	g++ $(CFLAGS) main.cpp OpenCL_env.o -L$(OPENCL) -I$(OPENCL_INC) -o clkernel
+	g++ $(CFLAGS) main.cpp OpenCL_env.o -L$(OPENCL) -I$(OPENCL_INC) -o SimKerCL
 	
 mac: main.cpp OpenCL_mac.o climage.o
-	clang++ $(OPT) $(SSEOPT) $(OPENCL_MAC) main.cpp OpenCL_mac.o climage.o -o cldevil
+	clang++ $(OPT) $(SSEOPT) $(OPENCL_MAC) main.cpp OpenCL_mac.o climage.o -o SimKerCL_mac
 
 climage.o: image_core/climage.h image_core/climage.cpp
 	g++ $(CFLAGS) `pkg-config --cflags opencv` image_core/climage.cpp `pkg-config --libs opencv` -c
