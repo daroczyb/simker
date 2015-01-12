@@ -27,10 +27,10 @@ climage.o: image_core/climage.h image_core/climage.cpp
 	g++ $(CFLAGS) `pkg-config --cflags opencv` image_core/climage.cpp `pkg-config --libs opencv` -c
 #	g++ $(CFLAGS) -c image_core/climage.cpp 
 
-OpenCL_env.o: OpenCL/OpenCL_env.cpp OpenCL/OpenCL_env.h
+OpenCL_env.o: OpenCL_env.cpp OpenCL_env.h
 	g++ $(CFLAGS) -Wunused-result -I$(OPENCL_INC) -c OpenCL_env.cpp
 
-OpenCL_mac.o: OpenCL/OpenCL_env.cpp OpenCL/OpenCL_env.h
+OpenCL_mac.o: OpenCL_env.cpp OpenCL_env.h
 	g++ $(OPT) $(OPENCL_MAC) -c OpenCL_env.cpp -o OpenCL_mac.o
 
 clean:
