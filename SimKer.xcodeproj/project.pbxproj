@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF1AD4971A6474A300595CFD /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = DF1AD4961A6474A300595CFD /* Makefile */; };
 		DF96513D1A5DCB88004A67D6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF96513C1A5DCB88004A67D6 /* main.cpp */; };
+		DF9651451A5DCCBC004A67D6 /* OpenCL_env.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF9651431A5DCCBC004A67D6 /* OpenCL_env.cpp */; };
+		DF9DE0741A5DD177003B76B8 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF9DE0731A5DD177003B76B8 /* OpenCL.framework */; };
+		DF9DE0781A5DDD8F003B76B8 /* opencl_sim.cl in Sources */ = {isa = PBXBuildFile; fileRef = DF9DE0761A5DDD8F003B76B8 /* opencl_sim.cl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +27,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DF1AD4961A6474A300595CFD /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		DF9651391A5DCB88004A67D6 /* SimKer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimKer; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF96513C1A5DCB88004A67D6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DF9651431A5DCCBC004A67D6 /* OpenCL_env.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenCL_env.cpp; sourceTree = "<group>"; };
+		DF9651441A5DCCBC004A67D6 /* OpenCL_env.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCL_env.h; sourceTree = "<group>"; };
+		DF9DE0731A5DD177003B76B8 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenCL.framework; sourceTree = "<group>"; };
+		DF9DE0761A5DDD8F003B76B8 /* opencl_sim.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = opencl_sim.cl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF9DE0741A5DD177003B76B8 /* OpenCL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +51,7 @@
 		DF9651301A5DCB88004A67D6 = {
 			isa = PBXGroup;
 			children = (
+				DF9DE0731A5DD177003B76B8 /* OpenCL.framework */,
 				DF96513B1A5DCB88004A67D6 /* SimKer */,
 				DF96513A1A5DCB88004A67D6 /* Products */,
 			);
@@ -57,9 +68,21 @@
 		DF96513B1A5DCB88004A67D6 /* SimKer */ = {
 			isa = PBXGroup;
 			children = (
+				DF1AD4961A6474A300595CFD /* Makefile */,
+				DF9DE0751A5DD228003B76B8 /* OpenCL */,
 				DF96513C1A5DCB88004A67D6 /* main.cpp */,
 			);
 			path = SimKer;
+			sourceTree = "<group>";
+		};
+		DF9DE0751A5DD228003B76B8 /* OpenCL */ = {
+			isa = PBXGroup;
+			children = (
+				DF9DE0761A5DDD8F003B76B8 /* opencl_sim.cl */,
+				DF9651441A5DCCBC004A67D6 /* OpenCL_env.h */,
+				DF9651431A5DCCBC004A67D6 /* OpenCL_env.cpp */,
+			);
+			name = OpenCL;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +141,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF9651451A5DCCBC004A67D6 /* OpenCL_env.cpp in Sources */,
+				DF9DE0781A5DDD8F003B76B8 /* opencl_sim.cl in Sources */,
+				DF1AD4971A6474A300595CFD /* Makefile in Sources */,
 				DF96513D1A5DCB88004A67D6 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,6 +178,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_UNROLL_LOOPS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -160,7 +187,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -187,6 +214,8 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_UNROLL_LOOPS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -195,6 +224,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -202,6 +232,13 @@
 		DF9651411A5DCB88004A67D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
+				GCC_UNROLL_LOOPS = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -209,6 +246,14 @@
 		DF9651421A5DCB88004A67D6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_UNROLL_LOOPS = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -232,6 +277,7 @@
 				DF9651421A5DCB88004A67D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
