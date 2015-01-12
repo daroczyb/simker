@@ -28,10 +28,10 @@ climage.o: image_core/climage.h image_core/climage.cpp
 #	g++ $(CFLAGS) -c image_core/climage.cpp 
 
 OpenCL_env.o: OpenCL/OpenCL_env.cpp OpenCL/OpenCL_env.h
-	g++ $(CFLAGS) -Wunused-result -I$(OPENCL_INC) -c OpenCL/OpenCL_env.cpp
+	g++ $(CFLAGS) -Wunused-result -I$(OPENCL_INC) -c OpenCL_env.cpp
 
 OpenCL_mac.o: OpenCL/OpenCL_env.cpp OpenCL/OpenCL_env.h
-	g++ $(OPT) $(OPENCL_MAC) -c OpenCL/OpenCL_env.cpp -o OpenCL_mac.o
+	g++ $(OPT) $(OPENCL_MAC) -c OpenCL_env.cpp -o OpenCL_mac.o
 
 clean:
 	-rm -f *.o *.linkinfo *.so *.a proba
