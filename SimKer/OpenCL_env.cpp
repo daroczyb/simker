@@ -85,7 +85,7 @@ OpenCL_env::OpenCL_env(char* fname,int type)
     context = clCreateContext( NULL, 1, &device_id, NULL, NULL, &ret);
     command_queue = clCreateCommandQueue(context, device_id, 0, &ret);
     if(ret != CL_SUCCESS) {printf ("init failed\n"); set=0; return;}
-    SetSource(fname);
+    if(SetSource(fname)!=1) set=0;
 }
 
 
@@ -114,6 +114,8 @@ OpenCL_env::~OpenCL_env()
 
 void OpenCL_env::GetInfo()
 {
+    if(set)
+    {
     char buffer[500];
     ret = clGetDeviceInfo(device_id, CL_DEVICE_NAME, sizeof(buffer), (void*)buffer, NULL);
     printf("Device name: %s\n",buffer);
@@ -122,9 +124,10 @@ void OpenCL_env::GetInfo()
     size_t vals[3];
     ret = clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_ITEM_SIZES, sizeof(vals), (void*)vals, NULL);
     printf("Max work item sizes: %d,%d,%d\n",(int)vals[0],(int)vals[1],(int)vals[2]);
+    }
 }
 
-void OpenCL_env::SetSource(char* fname)
+int OpenCL_env::SetSource(char* fname)
 {
     FILE* programHandle;
     char *programBuffer;
@@ -160,14 +163,26 @@ void OpenCL_env::SetSource(char* fname)
         char *log = (char *) malloc(log_size);
         clGetProgramBuildInfo(program, device_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
         printf("%s\n", log);
+        return -1;
     }
-    else printf("Source ok\n");
+    else
+        {
+        printf("Source ok\n");
+        return 1;
+        }
 }
 
 void OpenCL_env::SetRef(char* reffile,int dim1,int sub_dim,int str,int end,int num1,int batch)
 {
+    if(set)
+    {
     FILE* f=fopen(reffile,"r");
-    if(f==NULL) {set_ref=0; return;}
+    if(f==NULL)
+        {
+            set_ref=0;
+            printf("Could not open reference set file: %s\n",reffile);
+            return;
+        }
     fseek(f,0,SEEK_SET);
     
     char label[500];
@@ -199,16 +214,19 @@ void OpenCL_env::SetRef(char* reffile,int dim1,int sub_dim,int str,int end,int n
     fclose(f);
     
     if(str==0)
-    {
+        {
         ref_d = clCreateBuffer(context,CL_MEM_READ_ONLY,ref_dim*ref_num*sizeof(float),NULL,&ret);
         vec_d = clCreateBuffer(context,CL_MEM_READ_ONLY,batch*ref_dim*sizeof(float),NULL,&ret);
-    }
+        }
     ret = clEnqueueWriteBuffer(command_queue,ref_d,CL_TRUE,0,ref_dim*ref_num*sizeof(float),ref,0,NULL,NULL);
-    
+    set_ref=1;
+    }
 }
 
 void OpenCL_env::DotpCL(float* vec,int batch,int part)
 {
+    if(set)
+    {
     kernel = clCreateKernel(program, "dotp", &ret);
     
     global_item_size=ref_num*batch;
@@ -249,9 +267,12 @@ void OpenCL_env::DotpCL(float* vec,int batch,int part)
     fclose(f);
     delete[] out;
     ret = clReleaseMemObject(out_d);
+    }
 }
 void OpenCL_env::DotpCL_tr(int part)
 {
+    if(set)
+    {
     kernel = clCreateKernel(program, "dotp_tr", &ret);
     
     global_item_size=ref_num;
@@ -290,4 +311,5 @@ void OpenCL_env::DotpCL_tr(int part)
     fclose(f);
     delete[] out;
     ret = clReleaseMemObject(out_d);
+    }
 }

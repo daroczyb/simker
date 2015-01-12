@@ -29,7 +29,7 @@ public:
     OpenCL_env(int type);
     OpenCL_env(char* fname,int type);
     ~OpenCL_env();
-    void SetSource(char* fname);
+    int SetSource(char* fname);
     void GetInfo();
     
     void SetRef(char* reffile,int dim,int sub_dim,int str,int end,int num,int batch);
