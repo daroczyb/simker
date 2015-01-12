@@ -134,6 +134,11 @@ int OpenCL_env::SetSource(char* fname)
     size_t programSize;
     
     programHandle = fopen(fname, "r");
+    if(programHandle==NULL)
+        {
+            printf("Wrong OpenCL kernel file: %s\n",fname);
+            return -1;
+        }
     fseek(programHandle, 0, SEEK_END);
     programSize = ftell(programHandle);
     rewind(programHandle);
@@ -146,7 +151,7 @@ int OpenCL_env::SetSource(char* fname)
     ret = clBuildProgram(program, 1, &device_id, NULL, NULL, NULL);
     if(ret!=CL_SUCCESS)
     {
-        printf("progam failed\n"); set=0;
+        printf("Building failed\n"); set=0;
         if(ret==CL_INVALID_PROGRAM) printf ("CL_INVALID_PROGRAM\n");
         if(ret==CL_INVALID_VALUE) printf ("CL_INVALID_VALUE\n");
         if(ret==CL_INVALID_VALUE) printf ("CL_INVALID_VALUE\n");
