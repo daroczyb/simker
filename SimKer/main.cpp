@@ -84,12 +84,13 @@ int main(int argc,char* argv[])
         }
 #else
     if(argc<2) {usage(); return 1;}
-    sprintf(kernel_file,"OpenCL/opencl_sim.cl");
+    sprintf(kernel_file,"opencl_sim.cl");
 #endif
     
     if(argc>1)
         {
         sprintf(train_file,"%s",argv[1]);
+        sprintf(output_file,"%s",argv[1]);
         }
 
     printf("Approximation set: %s\n",train_file);
@@ -114,7 +115,7 @@ int main(int argc,char* argv[])
     if(test)
         {
         f=fopen(test_file,"r");
-            if(f==NULL) {printf("Wrong test file: %s\n",test_file); return -1;}
+        if(f==NULL) {printf("Wrong test file: %s\n",test_file); return -1;}
         }
     else {printf("No test file\n");}
     
@@ -134,7 +135,7 @@ int main(int argc,char* argv[])
         act_clock = clock();
         
         opencl.SetRef(train_file,dim,sub_dim,str,end,ntr,batch);
-        if(opencl.set_ref!=1) {printf("Could not load reference set\n"); return -1;}
+        if(opencl.set_ref!=1) {return -1;}
       
         printf("Loading was done in %.4f sec (%dx%d)\n",(float)(clock() - act_clock)/CLOCKS_PER_SEC,ntr,dim);
         
