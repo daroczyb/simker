@@ -97,7 +97,7 @@ int main(int argc,char* argv[])
         if(strcmp(argv[i],"-ntr")==0) {ntr=atoi(argv[i+1]);}
         if(strcmp(argv[i],"-nte")==0) {nte=atoi(argv[i+1]);}
         if(strcmp(argv[i],"-dim")==0) {dim=atoi(argv[i+1]); printf("Dimension: %d\n",dim);}
-        if(strcmp(argv[i],"-split")==0) {split=atoi(argv[i+1]); printf("Split into %d pieces (sub_dim: %d)\n",split,dim/split);}
+        if(strcmp(argv[i],"-split")==0) {split=atoi(argv[i+1]); if(split<1) split=1; printf("Split into %d pieces (sub_dim: %d)\n",split,dim/split); }
         if(strcmp(argv[i],"-output")==0) {sprintf(output_file,"%s",argv[i+1]); printf("Output file: %s.tr.ker.p* and %s.te.ker.p*\n",output_file,output_file);}
         if(strcmp(argv[i],"-GPU")==0) {device=2; printf("Compute device: GPU\n");}
         if(strcmp(argv[i],"-test_only")==0) {train_sim=0; printf("Test only\n");}
@@ -107,8 +107,15 @@ int main(int argc,char* argv[])
     }
     
     OpenCL_env opencl(kernel_file,device);
+    if(opencl.set!=1) {printf("Could not set up OpenCL, exiting....\n"); return -1;}
     
-    FILE* f=fopen(test_file,"r");
+    FILE* f;
+    if(test)
+        {
+        f=fopen(test_file,"r");
+            if(f==NULL) {printf("Wrong test file: %s\n",test_file); return -1;}
+        }
+    else {printf("No test file\n");}
     
     int sub_dim=dim/split;
     printf("sub_dim: %d\n",sub_dim);
@@ -123,6 +130,7 @@ int main(int argc,char* argv[])
         act_clock = clock();
         
         opencl.SetRef(train_file,dim,sub_dim,str,end,ntr,batch);
+        if(opencl.set_ref!=1) {printf("Could not load reference set\n"); return -1;}
       
         printf("Loading was done in %.4f sec (%dx%d)\n",(float)(clock() - act_clock)/CLOCKS_PER_SEC,ntr,dim);
         
