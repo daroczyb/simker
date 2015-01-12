@@ -25,7 +25,7 @@
 #ifdef __APPLE__
 #include "OpenCL_env.h"
 #else
-#include <OpenCL_env.h>
+#include "OpenCL_env.h"
 #endif
 
 using namespace std;
